@@ -8,7 +8,6 @@ module.exports = function (grunt) {
 	];
 
 	var jsCssObjs = [
-		'plugins/dialog-polyfill/dialog-polyfill'
 		//'js-css/band_imagery',
 		//'js-css/display-font',
 		//'js-css/events',
@@ -138,7 +137,7 @@ module.exports = function (grunt) {
 			{
 				name: 'all',
 				create: true,
-				include: polyfillMods.concat('main'),
+				include: polyfillMods.concat(['main', 'require-css/css']),
 				exclude: ['require-css/normalize']
 			}
 		],
