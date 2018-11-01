@@ -141,6 +141,11 @@ module.exports = function (grunt) {
 				create: true,
 				include: polyfillMods.concat(['main', 'require-css/css']),
 				exclude: ['require-css/normalize']
+			},
+			{
+				name: 'mustard-checker-entry',
+				create: true,
+				include: ['requireLib','mustard-checker'],
 			}
 		],
 		onBuildRead: function (moduleName, path, contents) {
@@ -324,6 +329,13 @@ module.exports = function (grunt) {
 					cwd: 'node_modules/dcf/assets/dist/js/app/postBabel/optional',
 					src: ['**/*.js'],
 					dest: templateJs
+				}]
+			},
+			dcfUnminifiedMustards: {
+				files: [{
+					cwd: 'node_modules/dcf/assets/dist/js/mustard',
+					src: ['**/*.js', '!**/*.min.js'],
+					dest: `${templateJs}/mustard`
 				}]
 			}
 		},
