@@ -160,7 +160,7 @@ define(['wdn', 'dialog-helper', 'require', 'plugins/body-scroll-lock'], function
 					$unlSearch.name = 'unlsearch';
 					$unlSearch.id = 'wdn_search_frame';
 					$unlSearch.title = 'Search';
-					$unlSearch.className = 'dcf-b-0 dcf-w-100% dcf-h-100%';
+					$unlSearch.className = 'dcf-b-0 dcf-w-100%';
 					$unlSearch.src = searchFrameAction;
 
 					domSearchResultWrapper.appendChild($progress);
@@ -253,6 +253,14 @@ define(['wdn', 'dialog-helper', 'require', 'plugins/body-scroll-lock'], function
 				}
 			});
 
+			// domQ.addEventListener('keydown', function(e) {
+			// 	// enter key doesn't trigger on keyup
+			// 	if(e.keyCode === 13) {
+			// 		document.getElementById('wdn_search_frame').focus();
+			// 	}
+			// });
+			//
+
 			domSearchForm.addEventListener('submit', function(e, source) {
 				// enable the iframe search params
 				createSearchFrame();
@@ -262,7 +270,7 @@ define(['wdn', 'dialog-helper', 'require', 'plugins/body-scroll-lock'], function
 
 				if (!e.detail || e.detail !== 'auto') {
 					//a11y: send focus to the results if manually submitted
-					$unlSearch.focus();
+					document.getElementById('wdn_search_frame').focus();
 				}
 
 				// support sending messages to iframe without reload
@@ -274,10 +282,20 @@ define(['wdn', 'dialog-helper', 'require', 'plugins/body-scroll-lock'], function
 
 			//Close search on escape while the iframe has focus
 			window.addEventListener('message', function(e) {
-				if ('wdn.search.close' !== e.data) {
-					//Make sure this is our event
-					return;
-				}
+				console.log(e.data);
+				// if ('wdn.search.queryComplete' === e.data) {
+				// 	window.setTimeout(() => document.getElementById('wdn_search_frame').classList.remove('dcf-h-100%'), 2000);
+				// 	window.setTimeout(() => document.getElementById('wdn_search_frame').classList.add('dcf-h-100%'), 3000);
+				// }
+
+				// if ('wdn.search.queryComplete' === e.data) {
+				// 	document.getElementById('wdn_search_frame').focus();
+				// }
+
+			if ('wdn.search.close' !== e.data) {
+								//Make sure this is our event
+								return;
+							}
 
 				if (searchOrigin !== e.origin) {
 					//Verify the origin
