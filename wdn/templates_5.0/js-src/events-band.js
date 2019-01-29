@@ -24,21 +24,35 @@ define([
 
     var fetchEvents = function(localConfig) {
         var upcoming = 'upcoming/',
-            $container = $(localConfig.container).addClass('dcf-bleed dcf-wrapper dcf-pt-9 dcf-pb-8 unl-bg-lightest-gray unl-bg-grit'),
-            grid = document.createElement('div');
-            grid.classList.add('unl-offset-grid', 'dcf-d-grid', 'dcf-col-gap-4');
-            eventList = document.createElement('ul');
-            eventList.classList.add('unl-event-teaser-list', 'dcf-list-bare', 'dcf-d-grid', 'dcf-col-gap-vw', 'dcf-row-gap-6', 'dcf-mb-0');
+            $container = $(localConfig.container).addClass('dcf-bleed dcf-wrapper dcf-pt-9 dcf-pb-8' +
+                ' unl-bg-lightest-gray unl-bg-grit');
+
 
         if (localConfig.url.match(/upcoming\/$/)) {
-            //Don't add the upcoming endpoint if it already exists.
+            // Don't add the upcoming endpoint if it already exists.
             upcoming = '';
         }
         var url = localConfig.url + upcoming + '?format=json&limit=' + localConfig.limit;
         $.getJSON(url, function(data) {
+            console.dir(data);
             if (!data.Events) {
                 return;
             }
+
+					// No events returned
+            if (!data.Events.length) {
+               var contentContainer = document.createElement('div');
+               contentContainer.classList.add('dcf-d-flex dcf-jc-start dcf-flex-wrap');
+               contentContainer.innerHTML = '<p class="unl-font-sans dcf-txt-h5 dcf-mb-0 dcf-mr-4">No Upcoming Events</p>' +
+                   '<a class="dcf-btn dcf-btn-secondary" href="' + localConfig.url + '">View More Events</a>';
+               $container.append(contentContainer);
+               return;
+            }
+
+            var grid = document.createElement('div'),
+								eventList = document.createElement('ul');
+            grid.classList.add('unl-offset-grid', 'dcf-d-grid', 'dcf-col-gap-4');
+            eventList.classList.add('unl-event-teaser-list', 'dcf-list-bare', 'dcf-d-grid', 'dcf-col-gap-vw', 'dcf-row-gap-6', 'dcf-mb-0');
 
             $.each(data.Events.Event || data.Events, function(index, event) {
                 var date;

@@ -1015,6 +1015,17 @@
         </table>
       </figure>
 
+      <h2>Events Band</h2>
+      <div id="sustainability-events-band" class=""></div>
+      <div id="wdn-events-band" class=""></div>
+        <script type="text/javascript">
+					document.addEventListener('DOMContentLoaded', function f() {
+						WDN.initializePlugin('events-band',{container: '#sustainability-events-band', limit:6, url:
+                              '//events.unl.edu/sustainability/upcoming/'});
+                        WDN.initializePlugin('events-band',{container: '#wdn-events-band', room: true, limit:6, url:
+														'//events.unl.edu/wdn/upcoming/'});
+					});
+        </script>
     <!-- InstanceEndEditable -->
     </div>
   </main>
