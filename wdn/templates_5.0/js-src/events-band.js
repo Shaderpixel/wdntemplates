@@ -42,7 +42,7 @@ define([
 					// No events returned
             if (!data.Events.length) {
                var contentContainer = document.createElement('div');
-               contentContainer.classList.add('dcf-d-flex dcf-jc-start dcf-flex-wrap');
+               contentContainer.classList.add('dcf-d-flex', 'dcf-jc-start', 'dcf-flex-wrap');
                contentContainer.innerHTML = '<p class="unl-font-sans dcf-txt-h5 dcf-mb-0 dcf-mr-4">No Upcoming Events</p>' +
                    '<a class="dcf-btn dcf-btn-secondary" href="' + localConfig.url + '">View More Events</a>';
                $container.append(contentContainer);

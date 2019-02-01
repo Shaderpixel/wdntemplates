@@ -24,6 +24,17 @@ define([
 		var $container = $(config.container).addClass('wdn-calendar');
 		$container.hide();
 
+		// No upcoming events
+		if(!data.Events.length) {
+			var contentContainer = document.createElement('div');
+			contentContainer.classList.add('dcf-d-flex', 'dcf-jc-start', 'dcf-flex-wrap');
+			contentContainer.innerHTML = '<p class="unl-font-sans dcf-txt-h5 dcf-mb-0 dcf-mr-4">No Upcoming Events</p>' +
+					'<a class="dcf-btn dcf-btn-secondary" href="' + localConfig.url + '">View More Events</a>';
+			$container.append(contentContainer);
+			$container.show();
+			return;
+		}
+
 		$container.append($('<h2/>', {'class': 'dcf-d-flex dcf-ai-center dcf-mb-6 dcf-txt-xs dcf-uppercase unl-ls-2 unl-dark-gray unl-txt-stripes-after'}).html('Upcoming Events'));
 
 		var events_html = '';
