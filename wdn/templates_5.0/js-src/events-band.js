@@ -25,8 +25,10 @@ define([
     var fetchEvents = function(localConfig) {
         var upcoming = 'upcoming/',
             $container = $(localConfig.container).addClass('dcf-bleed dcf-wrapper dcf-pt-9 dcf-pb-8' +
-                ' unl-bg-lightest-gray unl-bg-grit');
-
+                ' unl-bg-lightest-gray unl-bg-grit'),
+            contentContainer = document.createElement('div'),
+			      grid = document.createElement('div'),
+					  eventList = document.createElement('ul');
 
         if (localConfig.url.match(/upcoming\/$/)) {
             // Don't add the upcoming endpoint if it already exists.
@@ -41,7 +43,6 @@ define([
 
 					// No events returned
             if (!data.Events.length) {
-               var contentContainer = document.createElement('div');
                contentContainer.classList.add('dcf-d-flex', 'dcf-jc-start', 'dcf-flex-wrap');
                contentContainer.innerHTML = '<p class="unl-font-sans dcf-txt-h5 dcf-mb-0 dcf-mr-4">No Upcoming Events</p>' +
                    '<a class="dcf-btn dcf-btn-secondary" href="' + localConfig.url + '">View More Events</a>';
@@ -49,13 +50,13 @@ define([
                return;
             }
 
-            var grid = document.createElement('div'),
-								eventList = document.createElement('ul');
             grid.classList.add('unl-offset-grid', 'dcf-d-grid', 'dcf-col-gap-4');
             eventList.classList.add('unl-event-teaser-list', 'dcf-list-bare', 'dcf-d-grid', 'dcf-col-gap-vw', 'dcf-row-gap-6', 'dcf-mb-0');
 
             $.each(data.Events.Event || data.Events, function(index, event) {
-                var date;
+                var date,
+                    room,
+                    eventURL = '';
                 if (event.DateTime.Start) {
                     date = moment.parseZone(event.DateTime.Start);
                 } else {
@@ -74,7 +75,7 @@ define([
 
                 if (localConfig.rooms) {
                     if (event.Room) {
-                        var room = event.Room;
+                        room = event.Room;
                         if (room.match(/^room /i)) {
                             room = room.substring(5);
                         }
@@ -85,7 +86,6 @@ define([
                     }
                 }
 
-                var eventURL = '';
                 if ($.isArray(event.WebPages)) {
                     eventURL = event.WebPages[0].URL
                 } else if ($.isArray(event.WebPages.WebPage)) {

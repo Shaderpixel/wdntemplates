@@ -21,12 +21,13 @@ define([
 	defaultCal = 'https://events.unl.edu/';
 
 	var display = function(data, config) {
+		var contentContainer, events_html = '';
 		var $container = $(config.container).addClass('wdn-calendar');
 		$container.hide();
 
 		// No upcoming events
 		if(!data.Events.length) {
-			var contentContainer = document.createElement('div');
+			contentContainer = document.createElement('div');
 			contentContainer.classList.add('dcf-d-flex', 'dcf-jc-start', 'dcf-flex-wrap');
 			contentContainer.innerHTML = '<p class="unl-font-sans dcf-txt-h5 dcf-mb-0 dcf-mr-4">No Upcoming Events</p>' +
 					'<a class="dcf-btn dcf-btn-secondary" href="' + localConfig.url + '">View More Events</a>';
@@ -37,16 +38,14 @@ define([
 
 		$container.append($('<h2/>', {'class': 'dcf-d-flex dcf-ai-center dcf-mb-6 dcf-txt-xs dcf-uppercase unl-ls-2 unl-dark-gray unl-txt-stripes-after'}).html('Upcoming Events'));
 
-		var events_html = '';
 		$.each(data.Events.Event || data.Events, function(index, event) {
-			var startDate;
+			var startDate, eventURL = '';
 			if (event.DateTime.Start) {
 				startDate = moment.parseZone(event.DateTime.Start);
 			} else {
 				//legacy
 				startDate = moment.parseZone(event.DateTime.StartDate +  'T' + event.DateTime.StartTime.substring(0, event.DateTime.StartTime.length - 1));
 			}
-			var eventURL = '';
 			if ($.isArray(event.WebPages)) {
 				eventURL = event.WebPages[0].URL
 			} else if ($.isArray(event.WebPages.WebPage)) {
